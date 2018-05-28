@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  microservices:
+    image: microservices
+    build:
+      context: .
+      dockerfile: MicroServices/Dockerfile
+ 
