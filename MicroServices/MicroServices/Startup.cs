@@ -36,7 +36,7 @@ namespace MicroServices
                     {
                         Title = "Microsserviço de teste",
                         Version = "v1",
-                        Description = "Exemplo de API REST criada com o ASP.NET Core",
+                        Description = "Exemplo de API REST criada com o ASP.NET Core usando RavenDB",
                         Contact = new Contact
                         {
                             Name = "Igor Velho",
@@ -70,7 +70,7 @@ namespace MicroServices
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json",
-                    "Conversor de Temperaturas");
+                    "Aplicação de testes usando RavenDB");
             });
         }
     }

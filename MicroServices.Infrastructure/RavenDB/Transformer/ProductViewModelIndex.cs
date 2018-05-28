@@ -12,13 +12,9 @@ namespace MicroServices.Infrastructure.RavenDB.Transformer
     {
         public class Result
         {
-            public string Id { get; set; }
-            public string Name { get; set; }
             public string SupplierName { get; set; }
             public string SupplierPhone { get; set; }
             public string CategoryName { get; set; }
-            public string QuantityPerUnit { get; set; }
-            public decimal PricePerUnit { get; set; }
         }
 
         public ProductViewModelIndex()
@@ -28,11 +24,7 @@ namespace MicroServices.Infrastructure.RavenDB.Transformer
                               //let category = LoadDocument<Category>(product.Category)
                 select new
                 {
-                   Id =  product.Id,
-                   Name =  product.Name,
                    CategoryName = LoadDocument<Category>(product.Category).Name,
-                   PricePerUnit = product.PricePerUnit,
-                   QuantityPerUnit = product.QuantityPerUnit,
                    SupplierPhone = LoadDocument<Supplier>(product.Supplier).Phone,
                    SupplierName = LoadDocument<Supplier>(product.Supplier).Name
                 };
