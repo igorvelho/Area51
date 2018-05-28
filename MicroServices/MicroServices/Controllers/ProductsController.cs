@@ -4,28 +4,38 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MicroServices.Domain.Model;
 using MicroServices.Domain.Northwind;
 using MicroServices.Infrastructure.RavenDB;
+using MicroServices.Infrastructure.RavenDB.Transformer;
 
 namespace MicroServices.Controllers
 {
     [Route("api/v1/[controller]")]
     public class ProductsController : Controller
     {
-
-        [HttpGet]
+        /// <summary>
+        /// Efetua uma busca de produtos pelo fornecedor informado
+        /// </summary>
+        /// <param name="supplier">Fornecedor</param>
+        /// <returns>Lista de produtos</returns>
+        [HttpGet("{supplier}")]
         //[Route("[action]")]
-        //[ProducesResponseType(typeof(Product>), (int)HttpStatusCode.OK)]
-        public string Get()
+        [ProducesResponseType(typeof(List<Product>), (int)HttpStatusCode.OK)]
+        public object GetProdutctBySupplierName(string supplier)
 
         {
-            var prod = new Product();
+            var products = new List<Product>();
             using (var session = RavenDBHolder.Store.OpenSession())
             {
-                prod = session.Load<Product>("products/77-A");
+                products = session
+                    .Query<ProductViewModelIndex.Result, ProductViewModelIndex>()
+                    .Where(x=> x.SupplierName == supplier)
+                    .OfType<Product>()
+                    .ToList();
             }
 
-            return prod.Name;
+            return products;
         }
     }
 }

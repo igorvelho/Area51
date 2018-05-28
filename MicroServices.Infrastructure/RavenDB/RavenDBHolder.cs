@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MicroServices.Infrastructure.RavenDB.Transformer;
 using Raven.Client.Documents;
 
 namespace MicroServices.Infrastructure.RavenDB
@@ -12,14 +13,19 @@ namespace MicroServices.Infrastructure.RavenDB
             {
                 var store = new DocumentStore
                 {
-                    Urls = new[] { "http://localhost:8080" },
+                    Urls = new[] { "http://10.0.75.2:8080" },
                     Database = "DBTest"
                 };
+               
+                store.Initialize();
 
-                return store.Initialize();
+                new ProductViewModelIndex().Execute(store);
+
+                return store;
             });
 
         public static IDocumentStore Store =>
             LazyStore.Value;
+
     }
 }
